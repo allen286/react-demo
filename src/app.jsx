@@ -3,8 +3,10 @@ import { render } from 'react-dom';
 import { createStore, bindActionCreators } from 'redux';
 import { Provider, connect } from 'react-redux';
 
-//action部分定义两种事件：“文字来回切换”、“按钮点击”
-//我们这里并没有使用const来声明常量，实际生产中不推荐像下面这样做
+/* 
+ Action
+ 用于描述事件以及需要改变的相关数据，必须type字段，可选error，payload或meta等字段
+ */
 function changeText() {
   return {
     type: 'CHANGE_TEXT'
@@ -17,21 +19,23 @@ function buttonClick() {
   }
 }
 
-//reducer
-//最初的状态是"Hello"
+/* 
+ Reducer
+ 负责相应action并修改数据
+ */
 const initialState = {
   text: 'Hello'
 }
 
-function myApp(state = initialState, action) {
+function myApp(previousState = initialState, action) {
   switch (action.type) {
     case 'CHANGE_TEXT':
       return {
-        text: state.text == 'Hello' ? 'Allen' : 'Hello'
+        text: previousState.text == 'Hello' ? 'Allen' : 'Hello'
       }
     case 'BUTTON_CLICK':
       return {
-        text: 'You just click button'
+        text: 'You just clicked the button'
       }
     default:
       return {
@@ -39,12 +43,14 @@ function myApp(state = initialState, action) {
       }
   }
 }
-
+/* 
+ Store
+ 负责保存数据
+ */
 let store = createStore(myApp)
 
 
 // 三个组件：文字组件Hello，按钮Change，以及它们的父组件App
-// Hello
 class Hello extends React.Component {
   constructor(props) {
     super(props);
@@ -62,7 +68,6 @@ class Hello extends React.Component {
   }
 }
 
-//Change
 class Change extends React.Component {
   constructor(props) {
     super(props);
@@ -80,14 +85,13 @@ class Change extends React.Component {
   }
 }
 
-//App
 class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    //actions和text这两个props在第5步中会解释
+    //actions和text这两个props，是通过connect给App的
     const { actions, text } = this.props;
     return (
       <div>
@@ -98,7 +102,26 @@ class App extends React.Component {
   }
 }
 
+// mapStateToProps的作用是声明，当state树变化的时候，哪些属性是我们关心的
+// 由于我们这个应用太小，只有一个属性，所以只有text这个字段。
+function mapStateToProps(state) {
+  return { text: state.text }
+}
+
+// mapDispatchToProps的作用是把store中的dispatch方法注入给组件
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ changeText, buttonClick }, dispatch)
+  }
+}
+
+// 这里实际上给了App两个props：text和actions
+App = connect(mapStateToProps, mapDispatchToProps)(App)
+
+// Provider是react-redux直接提供的
 render(
-  <Hello name="World" />,
-  document.getElementById('AppRoot')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
 )

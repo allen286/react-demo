@@ -8,7 +8,7 @@ process.noDeprecation = true
 
 module.exports = {
   entry: {
-    app: ['./src/app.js'],
+    app: ['./src/app.jsx'],
     vendor: ['react', 'react-dom']
   },
   output: {
