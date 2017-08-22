@@ -1,0 +1,12 @@
+.hello {
+  color: red;
+}
+
+.bg-img {
+  display: flex;
+  width: 300px;
+  height: 200px;
+  background: url('./static/timg.jpg') no-repeat center;
+  background-size: contain;
+  opacity: 0.5;
+}
