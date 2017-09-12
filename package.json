@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --env=dev",
-    // "build": "rimraf ./dist && webpack --env=common",
+    "build": "rimraf ./dist && webpack --env=common",
     "prod": "rimraf ./dist && webpack --env=prod"
   },
   "author": "",
@@ -24,8 +24,10 @@
     "html-webpack-plugin": "^2.29.0",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.6",
+    "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-router": "^4.1.2",
+    "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.6",

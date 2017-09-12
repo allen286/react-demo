@@ -9,7 +9,7 @@ process.noDeprecation = true
 module.exports = {
   entry: {
     app: ['./src/app.jsx'],
-    vendor: ['react', 'react-dom']
+    vendor: ['react', 'react-dom', 'react-router-dom']
   },
   output: {
     path: path.join(__dirname, 'dist'),
